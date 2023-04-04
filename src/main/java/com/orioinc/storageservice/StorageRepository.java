@@ -1,22 +1,29 @@
 package com.orioinc.storageservice;
 
 
-import lombok.Data;
+import com.orioinc.storageservice.model.DataText;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
 @Repository
-@Data
 public class StorageRepository {
 
-    private Map<String, String> storage = Map.of("qwerty", "Correct");
+    private Map<String, String> repository = Map.of("qwerty", "Correct");
 
-    public void putInStorage(String key, String text) {
-        storage.put(key, text);
+    public void addElement(DataText data) {
+        repository.put(data.getKey(), data.getInputText());
     }
 
-    public String getTextFirUniqueKey(String uniqueKey) {
-        return storage.get(uniqueKey);
+    public String getTextByUniqueKey(String uniqueKey) {
+        return repository.get(uniqueKey);
+    }
+
+    public Map<String, String> getStorage() {
+        return repository;
+    }
+
+    public void setStorage(Map<String, String> storage) {
+        this.repository = storage;
     }
 }

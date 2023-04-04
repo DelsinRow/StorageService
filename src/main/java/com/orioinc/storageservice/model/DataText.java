@@ -10,9 +10,9 @@ public class DataText {
     private String key;
     private String inputText;
 
-    public DataText() {
-        this.key = new EncodeService().getUniqueKey();
-
+    public DataText(String key, String inputText) {
+        this.key = key;
+        this.inputText = inputText;
     }
 
 }

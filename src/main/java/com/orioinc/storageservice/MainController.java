@@ -1,5 +1,6 @@
 package com.orioinc.storageservice;
 
+import com.orioinc.storageservice.model.DataText;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,7 @@ public class MainController {
     private final StorageSevice storageSevice;
     private final StorageRepository storageRepository;
 
+    //for checking
     @GetMapping
     public Map<String, String> map() {
         return storageRepository.getStorage();
@@ -32,9 +34,10 @@ public class MainController {
 
     @PostMapping("/post")
     public String sendText(@RequestBody String text ) {
-        String uniqueKey = encodeService.getUniqueKey();
-        storageRepository.putInStorage(uniqueKey, text);
-        return "Your key: " + uniqueKey;
+        String key = encodeService.getUniqueKey();
+        DataText data = new DataText(key, text);
+        storageRepository.addElement(data);
+        return "Your key: " + data.getKey();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
