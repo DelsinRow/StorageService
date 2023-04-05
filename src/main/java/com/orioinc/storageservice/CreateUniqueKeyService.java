@@ -7,7 +7,7 @@ import java.util.Base64;
 import java.util.UUID;
 
 @Service
-public class EncodeService {
+public class CreateUniqueKeyService {
 
     public String getUniqueKey() {
         UUID uuid = UUID.randomUUID();
