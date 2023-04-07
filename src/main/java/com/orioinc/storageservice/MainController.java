@@ -36,7 +36,9 @@ public class MainController {
         if (repository.findByKey(key) != null){
             response = repository.findByKey(key).getInputText();
         } else {
-            throw new NotFoundKeyException(HttpStatus.NOT_FOUND, "Invalid key");
+            DataText emptyData = new DataText("empty", "Object not found. Please check youy key");
+            response = emptyData.getInputText();
+//            throw new NotFoundKeyException(HttpStatus.NOT_FOUND, "Invalid key");
         }
         return response;
     }
