@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -36,9 +38,7 @@ public class MainController {
         if (repository.findByKey(key) != null){
             response = repository.findByKey(key).getInputText();
         } else {
-            DataText emptyData = new DataText("empty", "Object not found. Please check youy key");
-            response = emptyData.getInputText();
-//            throw new NotFoundKeyException(HttpStatus.NOT_FOUND, "Invalid key");
+            throw new NotFoundKeyException(HttpStatus.NOT_FOUND, "Document not found");
         }
         return response;
     }
@@ -48,7 +48,7 @@ public class MainController {
         String key = CreateUniqueKeyService.getUniqueKey();
         DataText data = new DataText(key, text);
         repository.save(data);
-        return "Your key: " + data.getKey();
+        return "Your key: " + data.getKey();        //return json
     }
 
     @ExceptionHandler
