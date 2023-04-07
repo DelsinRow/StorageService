@@ -1,5 +1,6 @@
 package com.orioinc.storageservice;
 
+import com.orioinc.storageservice.exceptions.NotFoundKeyException;
 import com.orioinc.storageservice.exceptions.ResponseError;
 import com.orioinc.storageservice.model.DataText;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,7 +32,13 @@ public class MainController {
 
     @GetMapping("/get/{key}")
     public String getText(@PathVariable String key) {
-            return repository.findByKey(key).getInputText();
+        String response ="";
+        if (repository.findByKey(key) != null){
+            response = repository.findByKey(key).getInputText();
+        } else {
+            throw new NotFoundKeyException(HttpStatus.NOT_FOUND, "Invalid key");
+        }
+        return response;
     }
 
     @PostMapping("/post")
@@ -40,13 +47,6 @@ public class MainController {
         DataText data = new DataText(key, text);
         repository.save(data);
         return "Your key: " + data.getKey();
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseError notFoundKey(NullPointerException exception) {
-        log.error(exception.getMessage(), exception);
-        return new ResponseError("Invalid key", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
