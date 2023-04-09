@@ -1,5 +1,6 @@
 package com.orioinc.storageservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +13,8 @@ public class DataText {
     @Field("key")
     private String key;
 
+    @Field("inputText")
+    @JsonIgnore
     private String inputText;
 
     public DataText(String key, String inputText) {

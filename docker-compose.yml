@@ -5,7 +5,7 @@ services:
       - "27017:27017"
 
   app:
-#    buid: .
+    build: .
     image: myapp-image
     ports:
       - "8080:8080"

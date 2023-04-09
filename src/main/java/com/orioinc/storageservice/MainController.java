@@ -28,13 +28,12 @@ public class MainController {
 
     private final CreateUniqueKeyService CreateUniqueKeyService;
     private final Repository repository;
-    private final HttpServletResponse response;
 
     private final MongoTemplate mongoTemplate;
 
     @GetMapping("/get/{key}")
     public String getText(@PathVariable String key) {
-        String response ="";
+        String response;
         if (repository.findByKey(key) != null){
             response = repository.findByKey(key).getInputText();
         } else {
@@ -44,11 +43,11 @@ public class MainController {
     }
 
     @PostMapping("/post")
-    public String addText(@RequestBody String text ) {
+    public DataText saveData(@RequestBody String text ) {
         String key = CreateUniqueKeyService.getUniqueKey();
         DataText data = new DataText(key, text);
         repository.save(data);
-        return "Your key: " + data.getKey();        //return json
+        return data;
     }
 
     @ExceptionHandler

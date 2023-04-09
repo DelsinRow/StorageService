@@ -1,3 +1,9 @@
-FROM
-ADD target/springboot-mongo-docker.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM openjdk:20-ea-19-oracle
+
+WORKDIR /app
+
+ARG JAR_FILE=target/*.jar
+
+COPY ${JAR_FILE} /app
+
+ENTRYPOINT ["java", "-jar", "/app/myapp.jar"]
