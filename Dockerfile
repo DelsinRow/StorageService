@@ -1,0 +1,12 @@
+# Build app
+FROM maven:3.9.0-eclipse-temurin-19-focal AS MAVEN_BUILD
+WORKDIR /app
+COPY . /app
+RUN mvn clean install
+
+# Run app in Docker container
+FROM openjdk:19
+WORKDIR /app
+COPY --from=MAVEN_BUILD /app/target/myapp.jar /app
+CMD ["java", "-jar", "myapp.jar"]
+
