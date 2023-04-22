@@ -7,6 +7,6 @@ RUN mvn clean install
 # Run app in Docker container
 FROM openjdk:19
 WORKDIR /app
-COPY --from=MAVEN_BUILD /app/target/myapp.jar /app
-CMD ["java", "-jar", "myapp.jar"]
+COPY --from=MAVEN_BUILD /app/target/storageservice-app.jar /app
+CMD ["java", "-jar", "storageservice-app.jar"]
 
