@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: mongo-image
+    image: mongo
     ports:
       - "27017:27017"
 
@@ -10,7 +10,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATA_MONGODB_HOST=mongo-image
+      - SPRING_DATA_MONGODB_HOST=mongo
       - SPRING_DATA_MONGODB_PORT=27017
     depends_on:
-      - mongo-image
+      - mongo
