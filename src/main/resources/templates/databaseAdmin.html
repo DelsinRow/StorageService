@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--<html lang="en">-->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Get  DataBase</title>
 </head>
 <body>
+    <h1>Documents</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Stored Text</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="allData : ${allData}">
+            <td th:text="${allData.key}"></td>
+            <td th:text="${allData.inputText}"></td>
+        </tr>
+        </tbody>
+    </table>
+
 
 </body>
 </html>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -56,4 +57,9 @@ public class MainController {
         log.error(exception.getMessage(), exception);
         return new ResponseError("Empty request. Please, enter some text  ", HttpStatus.BAD_REQUEST);
     }
+
+    public List<DataText> getAllDocument() {
+        return repository.findAll();
+    }
+
 }
