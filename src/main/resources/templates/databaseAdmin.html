@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Get  DataBase</title>
+    <title>All Documents</title>
 </head>
 <body>
     <h1>Documents</h1>
@@ -11,13 +11,16 @@
         <thead>
             <tr>
                 <th>Key</th>
-                <th>Stored Text</th>
+<!--                <th>-->
+<!--                    <a th:href="@{${urls}}">Documents</a>-->
+<!--                </th>-->
             </tr>
         </thead>
         <tbody>
         <tr th:each="allData : ${allData}">
-            <td th:text="${allData.key}"></td>
-            <td th:text="${allData.inputText}"></td>
+            <td>
+                <a th:href="@{'/api/document/get/'+${allData.key}}" th:text="${allData.key}"></a>
+            </td>
         </tr>
         </tbody>
     </table>
