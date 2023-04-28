@@ -11,20 +11,19 @@
         <thead>
             <tr>
                 <th>Key</th>
-<!--                <th>-->
-<!--                    <a th:href="@{${urls}}">Documents</a>-->
-<!--                </th>-->
+                <th>Title</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
         <tr th:each="allData : ${allData}">
             <td>
-                <a th:href="@{'/api/document/get/'+${allData.key}}" th:text="${allData.key}"></a>
+                <a th:href="@{'/document/'+${allData.key}}" th:text="${allData.key}"></a>
             </td>
+            <td th:text="${allData.title}"></td>
+            <td th:text="${allData.date}"></td>
         </tr>
         </tbody>
     </table>
-
-
 </body>
 </html>
