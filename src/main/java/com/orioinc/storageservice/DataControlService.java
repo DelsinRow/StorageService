@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -28,9 +29,10 @@ public class DataControlService {
         return response;
     }
 
-    public DataText saveData(String text ) {
+    public DataText saveData(String title, String text) {
         String key = getUniqueKey();
-        DataText data = new DataText(key, text);
+        LocalDate date = LocalDate.now();
+        DataText data = new DataText(key, text, title, date);
         repository.save(data);
         return data;
     }
@@ -41,7 +43,6 @@ public class DataControlService {
         buffer.putLong(uuid.getMostSignificantBits());
         buffer.putLong(uuid.getLeastSignificantBits());
         String base64 = Base64.getUrlEncoder().withoutPadding().encodeToString(buffer.array());
-
         return base64;
     }
 

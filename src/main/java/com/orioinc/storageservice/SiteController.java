@@ -4,6 +4,7 @@ import com.orioinc.storageservice.model.DataText;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -16,12 +17,17 @@ public class SiteController {
     }
 
     @GetMapping("/")
-    public String getAllDocuments(Model model) {
+    public String index(Model model) {
         List<DataText> allData = dataControlService.getAllDocument();
-        String link = "/" + allData;
         model.addAttribute("allData", allData);
-        model.addAttribute("urls", "/key");
-        model.addAttribute("linkText", "Text");
-        return "databaseAdmin";
+        return "index";
     }
+
+    @GetMapping("/document/{key}")
+    public String getDocument(@PathVariable String key, Model model) {
+        String text = dataControlService.getText(key);
+        model.addAttribute("document", text);
+        return "document";
+    }
+
 }
