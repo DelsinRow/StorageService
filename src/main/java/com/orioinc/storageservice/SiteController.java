@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+
 @Controller
 public class SiteController {
     private final DataControlService dataControlService;
@@ -18,9 +19,23 @@ public class SiteController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<DataText> allData = dataControlService.getAllDocument();
+        List<DataText> allData = dataControlService.getRepository().findTop5ByOrderByDateDesc();
         model.addAttribute("allData", allData);
         return "index";
+    }
+
+    @GetMapping("/tendocuments")
+    public String hundredDocuments(Model model) {
+        List<DataText> allData = dataControlService.getRepository().findTop10ByOrderByDateDesc();
+        model.addAttribute("allData", allData);
+        return "tendocuments";
+    }
+
+    @GetMapping("/alldocuments")
+    public String allDocuments(Model model) {
+        List<DataText> allData = dataControlService.getAllDocument();
+        model.addAttribute("allData", allData);
+        return "alldocuments";
     }
 
     @GetMapping("/document/{key}")
@@ -29,5 +44,6 @@ public class SiteController {
         model.addAttribute("document", text);
         return "document";
     }
+
 
 }
