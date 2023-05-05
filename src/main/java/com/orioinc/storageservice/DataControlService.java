@@ -3,9 +3,13 @@ package com.orioinc.storageservice;
 import com.mongodb.client.MongoDatabase;
 import com.orioinc.storageservice.exceptions.NotFoundKeyException;
 import com.orioinc.storageservice.model.DataText;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 
 import java.nio.ByteBuffer;
 import java.time.LocalDate;
@@ -55,11 +59,23 @@ public class DataControlService {
         return base64;
     }
 
-    public List<DataText> getAllDocument() {
-        return repository.findAll();
+    public List<DataText> getAllDocuments() {
+        return mongoTemplate.findAll(DataText.class, "myCollection");
+    }
+    public List<DataText> getDocumentsCreateToday() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("date").is(LocalDate.now()));
+        return mongoTemplate.find(query, DataText.class, "myCollection");
+    }
+    public List<DataText> getDocumentsByServiceAPI() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").regex(".*10 questions by next language.*"));
+        return mongoTemplate.find(query, DataText.class, "myCollection");
+    }
+    public List<DataText> getTenLastDocument() {
+        Query query = new Query();
+        query.with(Sort.by(Sort.Direction.DESC, "date")).limit(10);
+        return mongoTemplate.find(query, DataText.class, "myCollection");
     }
 
-    public Repository getRepository() {
-        return repository;
-    }
 }
