@@ -1,6 +1,5 @@
 package com.orioinc.storageservice;
 
-import com.mongodb.client.MongoDatabase;
 import com.orioinc.storageservice.exceptions.NotFoundKeyException;
 import com.orioinc.storageservice.model.DataText;
 import org.springframework.data.domain.Sort;
@@ -25,11 +24,6 @@ public class DataControlService {
     public DataControlService(Repository repository, MongoTemplate mongoTemplate) {
         this.repository = repository;
         this.mongoTemplate = mongoTemplate;
-    }
-
-    public MongoDatabase getDb() {
-//        MongoCollection<Document> collection = mongoTemplate.getCollection("myCollection");
-        return mongoTemplate.getDb();
     }
 
     public String getText(String key) {
