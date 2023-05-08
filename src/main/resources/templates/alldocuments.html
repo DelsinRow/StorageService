@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>All Documents</title>
+</head>
+<body>
+<h1>Documents</h1>
+<a href="/">10 last documents</a>
+<a href="/create_today">Create today</a>
+<a href="/documents_by_serviceapi">byServiceAPI</a>
+<a href="/alldocuments">AllDocuments</a>
+<table>
+  <thead>
+  <tr>
+    <th>Key</th>
+    <th>Title</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="allData : ${allData}">
+    <td>
+      <a th:href="@{'/document/'+${allData.key}}" th:text="${allData.key}"></a>
+    </td>
+    <td th:text="${allData.title}"></td>
+    <td th:text="${allData.date}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
