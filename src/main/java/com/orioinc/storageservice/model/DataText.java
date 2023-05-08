@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Data
 @Document(collection = "myCollection")
 public class DataText {
+
     @Id
     @Field("key")
     private String key;
@@ -22,13 +23,17 @@ public class DataText {
     @Field("title")
     private String title;
 
-    @Field("Date")
+    @Field("source")
+    private String source;
+
+    @Field("date")
     private LocalDate date;
 
-    public DataText(String key, String inputText, String title, LocalDate date) {
+    public DataText(String key, String inputText, String title, String source, LocalDate date) {
         this.key = key;
         this.inputText = inputText;
         this.title = title;
+        this.source = source;
         this.date = date;
     }
 

@@ -51,6 +51,4 @@ public class SiteController {
         model.addAttribute("document", text);
         return "document";
     }
-
-
 }

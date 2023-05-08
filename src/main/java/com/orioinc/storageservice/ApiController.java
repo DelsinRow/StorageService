@@ -29,9 +29,11 @@ public class ApiController {
     }
 
     @PostMapping("/document")
-    public DataText savaData(@RequestHeader("Title") String title, @RequestBody String text) {
+    public DataText savaData(@RequestHeader("Title") String title,
+                             @RequestHeader("Source") String source,
+                             @RequestBody String text) {
 
-        return dataControlService.saveData(title, text);
+        return dataControlService.saveData(title, source, text);
     }
 
     @ExceptionHandler

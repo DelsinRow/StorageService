@@ -4,8 +4,9 @@ import com.orioinc.storageservice.exceptions.NotFoundKeyException;
 import com.orioinc.storageservice.model.DataText;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class DataControlService {
     private final Repository repository;
     private  final MongoTemplate mongoTemplate;
+    private final static String DATA_TEXT_COLLECTION_NAME = "myCollection";
 
     public DataControlService(Repository repository, MongoTemplate mongoTemplate) {
         this.repository = repository;
@@ -36,10 +38,10 @@ public class DataControlService {
         return response;
     }
 
-    public DataText saveData(String title, String text) {
+    public DataText saveData(String title, String source, String text) {
         String key = getUniqueKey();
         LocalDate date = LocalDate.now();
-        DataText data = new DataText(key, text, title, date);
+        DataText data = new DataText(key, text, title, source, date);
         repository.save(data);
         return data;
     }
@@ -54,22 +56,32 @@ public class DataControlService {
     }
 
     public List<DataText> getAllDocuments() {
-        return mongoTemplate.findAll(DataText.class, "myCollection");
+        ProjectionOperation projection = Aggregation.project("key", "title", "date");
+        Aggregation aggregation = Aggregation.newAggregation(projection);
+        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
+
     public List<DataText> getDocumentsCreateToday() {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("date").is(LocalDate.now()));
-        return mongoTemplate.find(query, DataText.class, "myCollection");
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("date").is(LocalDate.now())),
+                Aggregation.project("key", "title", "date")
+        );
+        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
     public List<DataText> getDocumentsByServiceAPI() {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("title").regex(".*10 questions by next language.*"));
-        return mongoTemplate.find(query, DataText.class, "myCollection");
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("source").is("ServiceAPI")),
+                Aggregation.project("key", "title", "date")
+        );
+        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
     public List<DataText> getTenLastDocument() {
-        Query query = new Query();
-        query.with(Sort.by(Sort.Direction.DESC, "date")).limit(10);
-        return mongoTemplate.find(query, DataText.class, "myCollection");
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.sort(Sort.Direction.DESC, "date"),
+                Aggregation.project("key", "title", "date"),
+                Aggregation.limit(10)
+        );
+        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
 
 }
