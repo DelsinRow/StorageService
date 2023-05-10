@@ -1,6 +1,7 @@
 package com.orioinc.storageservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.orioinc.storageservice.ConstantValues;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.LocalDate;
 
 @Data
-@Document(collection = "myCollection")
+@Document(collection = ConstantValues.DATA_TEXT_COLLECTION_NAME)
 public class DataText {
 
     @Id

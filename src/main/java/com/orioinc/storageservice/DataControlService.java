@@ -21,7 +21,7 @@ import java.util.UUID;
 public class DataControlService {
     private final Repository repository;
     private  final MongoTemplate mongoTemplate;
-    private final static String DATA_TEXT_COLLECTION_NAME = "myCollection";
+
 
     public DataControlService(Repository repository, MongoTemplate mongoTemplate) {
         this.repository = repository;
@@ -58,7 +58,7 @@ public class DataControlService {
     public List<DataText> getAllDocuments() {
         ProjectionOperation projection = Aggregation.project("key", "title", "date");
         Aggregation aggregation = Aggregation.newAggregation(projection);
-        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
+        return mongoTemplate.aggregate(aggregation, ConstantValues.DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
 
     public List<DataText> getDocumentsCreateToday() {
@@ -66,14 +66,14 @@ public class DataControlService {
                 Aggregation.match(Criteria.where("date").is(LocalDate.now())),
                 Aggregation.project("key", "title", "date")
         );
-        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
+        return mongoTemplate.aggregate(aggregation, ConstantValues.DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
     public List<DataText> getDocumentsByServiceAPI() {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(Criteria.where("source").is("ServiceAPI")),
                 Aggregation.project("key", "title", "date")
         );
-        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
+        return mongoTemplate.aggregate(aggregation, ConstantValues.DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
     public List<DataText> getTenLastDocument() {
         Aggregation aggregation = Aggregation.newAggregation(
@@ -81,7 +81,7 @@ public class DataControlService {
                 Aggregation.project("key", "title", "date"),
                 Aggregation.limit(10)
         );
-        return mongoTemplate.aggregate(aggregation, DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
+        return mongoTemplate.aggregate(aggregation, ConstantValues.DATA_TEXT_COLLECTION_NAME, DataText.class).getMappedResults();
     }
 
 }
