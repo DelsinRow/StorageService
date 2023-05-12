@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-
 import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.util.Base64;
